@@ -12,13 +12,23 @@ import socketService from '../services/socketService';
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const { location, loading: locationLoading } = useGeolocation();
+  const { location, loading: locationLoading, error: locationError } = useGeolocation();
   const [selectedRadius, setSelectedRadius] = useState(500);
   const [selectedType, setSelectedType] = useState(null);
-  const { events, loading: eventsLoading } = useEvents(selectedRadius, selectedType);
+  const { events, loading: eventsLoading, error: eventsError } = useEvents(selectedRadius, selectedType);
   const [liveEvents, setLiveEvents] = useState([]);
   const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
+
+  // Debug logging
+  useEffect(() => {
+    console.log('📍 Location:', location);
+    console.log('🎯 Selected Radius:', selectedRadius);
+    console.log('🏷️  Selected Type:', selectedType);
+    console.log('📊 Events:', events);
+    console.log('❌ Location Error:', locationError);
+    console.log('❌ Events Error:', eventsError);
+  }, [location, selectedRadius, selectedType, events, locationError, eventsError]);
 
   // Update live events when events change
   useEffect(() => {
@@ -51,8 +61,11 @@ const Dashboard = () => {
         
         newEvent.distance = distance;
 
-        // Add to events if within radius
-        if (!selectedRadius || distance <= selectedRadius) {
+        // Add to events if within radius AND matches type filter
+        const matchesRadius = !selectedRadius || distance <= selectedRadius;
+        const matchesType = !selectedType || newEvent.type === selectedType;
+        
+        if (matchesRadius && matchesType) {
           setLiveEvents(prev => [newEvent, ...prev]);
         }
       }
@@ -61,7 +74,7 @@ const Dashboard = () => {
     return () => {
       socketService.off('newEvent');
     };
-  }, [location, selectedRadius]);
+  }, [location, selectedRadius, selectedType]);
 
   // Calculate distance between two coordinates (Haversine formula)
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -92,30 +105,30 @@ const Dashboard = () => {
 
       {/* Real-time Notification */}
       {notification && (
-        <div className="fixed top-20 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
+        <div className="fixed top-20 right-4 left-4 sm:left-auto sm:right-4 z-50 bg-green-500 text-white px-4 sm:px-6 py-3 rounded-lg shadow-lg animate-bounce">
           🔔 {notification}
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Welcome back, {user?.full_name}! 👋
           </h1>
-          <p className="text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600">
             Discover events near you in {user?.city}
           </p>
-          <div className="mt-2 flex items-center text-sm text-green-600">
+          <div className="mt-2 flex items-center text-xs sm:text-sm text-green-600">
             <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
             Live updates enabled
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Filters</h2>
-          <div className="grid md:grid-cols-2 gap-4">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6">
+          <h2 className="text-base sm:text-lg font-semibold mb-4">Filters</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Radius Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -124,7 +137,7 @@ const Dashboard = () => {
               <select
                 value={selectedRadius || ''}
                 onChange={(e) => setSelectedRadius(e.target.value ? parseInt(e.target.value) : null)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               >
                 {RADIUS_OPTIONS.map((option) => (
                   <option key={option.label} value={option.value || ''}>
@@ -142,7 +155,7 @@ const Dashboard = () => {
               <select
                 value={selectedType || ''}
                 onChange={(e) => setSelectedType(e.target.value || null)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               >
                 <option value="">All Types</option>
                 {EVENT_TYPES.map((type) => (
@@ -156,11 +169,11 @@ const Dashboard = () => {
         </div>
 
         {/* Map and Events Grid */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Map */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold mb-4">Event Map</h2>
-            <div className="h-96">
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 order-2 lg:order-1">
+            <h2 className="text-base sm:text-lg font-semibold mb-4">Event Map</h2>
+            <div className="h-64 sm:h-80 lg:h-96">
               {location && (
                 <MapContainer
                   center={location}
@@ -172,9 +185,9 @@ const Dashboard = () => {
           </div>
 
           {/* Events List */}
-          <div>
+          <div className="order-1 lg:order-2">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">
+              <h2 className="text-base sm:text-lg font-semibold">
                 Nearby Events ({liveEvents.length})
               </h2>
             </div>
@@ -184,14 +197,21 @@ const Dashboard = () => {
                 <Loader />
               </div>
             ) : liveEvents.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                <p className="text-gray-600">No events found in your area.</p>
-                <p className="text-sm text-gray-500 mt-2">
+              <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
+                <p className="text-sm sm:text-base text-gray-600">No events found in your area.</p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-2">
                   Try increasing the distance filter
                 </p>
+                {location && (
+                  <div className="mt-4 text-xs text-gray-400">
+                    <p>Your location: {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}</p>
+                    <p>Search radius: {selectedRadius || 'Worldwide'} km</p>
+                    {eventsError && <p className="text-red-500 mt-2">Error: {eventsError}</p>}
+                  </div>
+                )}
               </div>
             ) : (
-              <div className="space-y-4 max-h-[500px] overflow-y-auto">
+              <div className="space-y-4 max-h-[400px] sm:max-h-[500px] overflow-y-auto">
                 {liveEvents.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
@@ -201,32 +221,32 @@ const Dashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 grid md:grid-cols-3 gap-4">
+        <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <button
             onClick={() => navigate('/explore')}
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-left"
+            className="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-left"
           >
-            <div className="text-3xl mb-2">🗺️</div>
-            <h3 className="font-semibold text-lg mb-1">Explore Events</h3>
-            <p className="text-sm text-gray-600">Browse all events on the map</p>
+            <div className="text-2xl sm:text-3xl mb-2">🗺️</div>
+            <h3 className="font-semibold text-base sm:text-lg mb-1">Explore Events</h3>
+            <p className="text-xs sm:text-sm text-gray-600">Browse all events on the map</p>
           </button>
 
           <button
             onClick={() => navigate('/team-builder')}
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-left"
+            className="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-left"
           >
-            <div className="text-3xl mb-2">🤖</div>
-            <h3 className="font-semibold text-lg mb-1">Build a Team</h3>
-            <p className="text-sm text-gray-600">AI-powered teammate matching</p>
+            <div className="text-2xl sm:text-3xl mb-2">🤖</div>
+            <h3 className="font-semibold text-base sm:text-lg mb-1">Build a Team</h3>
+            <p className="text-xs sm:text-sm text-gray-600">AI-powered teammate matching</p>
           </button>
 
           <button
             onClick={() => navigate('/meetups')}
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-left"
+            className="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-left sm:col-span-2 md:col-span-1"
           >
-            <div className="text-3xl mb-2">👥</div>
-            <h3 className="font-semibold text-lg mb-1">Local Meetups</h3>
-            <p className="text-sm text-gray-600">Find students near you</p>
+            <div className="text-2xl sm:text-3xl mb-2">👥</div>
+            <h3 className="font-semibold text-base sm:text-lg mb-1">Local Meetups</h3>
+            <p className="text-xs sm:text-sm text-gray-600">Find students near you</p>
           </button>
         </div>
       </div>

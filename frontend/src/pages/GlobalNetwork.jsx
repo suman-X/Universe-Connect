@@ -119,13 +119,13 @@ const GlobalNetwork = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             🌍 Global Network
           </h1>
-          <p className="text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600">
             Discover and connect with students from around the world
           </p>
         </div>
@@ -133,7 +133,7 @@ const GlobalNetwork = () => {
         {/* Filters Section */}
         <Card className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Filters</h2>
+            <h2 className="text-base sm:text-lg font-semibold">Filters</h2>
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="text-blue-600 hover:text-blue-700 text-sm font-medium"
@@ -154,7 +154,7 @@ const GlobalNetwork = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search users..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
               </div>
 
@@ -168,7 +168,7 @@ const GlobalNetwork = () => {
                     <button
                       key={skill}
                       onClick={() => toggleSkill(skill)}
-                      className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                         selectedSkills.includes(skill)
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -189,7 +189,7 @@ const GlobalNetwork = () => {
                   <select
                     value={radiusFilter}
                     onChange={(e) => setRadiusFilter(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                   >
                     <option value="">Any distance</option>
                     <option value="10">Within 10 km</option>
@@ -202,16 +202,16 @@ const GlobalNetwork = () => {
               )}
 
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={handleApplyFilters}
-                  className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base"
                 >
                   Apply Filters
                 </button>
                 <button
                   onClick={handleResetFilters}
-                  className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm sm:text-base"
                 >
                   Reset
                 </button>
@@ -223,17 +223,17 @@ const GlobalNetwork = () => {
           {!showFilters && (searchTerm || selectedSkills.length > 0 || radiusFilter) && (
             <div className="flex flex-wrap gap-2">
               {searchTerm && (
-                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                <span className="bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                   Search: {searchTerm}
                 </span>
               )}
               {selectedSkills.map(skill => (
-                <span key={skill} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                <span key={skill} className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                   {skill}
                 </span>
               ))}
               {radiusFilter && (
-                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                <span className="bg-purple-100 text-purple-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                   Within {radiusFilter} km
                 </span>
               )}
@@ -242,36 +242,36 @@ const GlobalNetwork = () => {
         </Card>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <Card>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">{users.length}</div>
-              <div className="text-sm text-gray-600">Users Found</div>
+              <div className="text-2xl sm:text-3xl font-bold text-blue-600">{users.length}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Users Found</div>
             </div>
           </Card>
           <Card>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">
+              <div className="text-2xl sm:text-3xl font-bold text-green-600">
                 {new Set(users.flatMap(u => u.skills || [])).size}
               </div>
-              <div className="text-sm text-gray-600">Unique Skills</div>
+              <div className="text-xs sm:text-sm text-gray-600">Unique Skills</div>
             </div>
           </Card>
           <Card>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600">
+              <div className="text-2xl sm:text-3xl font-bold text-purple-600">
                 {new Set(users.map(u => u.university)).size}
               </div>
-              <div className="text-sm text-gray-600">Universities</div>
+              <div className="text-xs sm:text-sm text-gray-600">Universities</div>
             </div>
           </Card>
         </div>
 
         {/* Map and Users Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* World Map */}
-          <Card className="h-[600px]">
-            <h3 className="text-lg font-semibold mb-4">World Map</h3>
+          <Card className="h-[400px] sm:h-[500px] lg:h-[600px]">
+            <h3 className="text-base sm:text-lg font-semibold mb-4">World Map</h3>
             {loading ? (
               <div className="flex items-center justify-center h-full">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -279,22 +279,22 @@ const GlobalNetwork = () => {
             ) : error ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
-                  <div className="text-red-500 text-4xl mb-2">⚠️</div>
-                  <p className="text-red-600">{error}</p>
+                  <div className="text-3xl sm:text-4xl mb-2">⚠️</div>
+                  <p className="text-sm sm:text-base text-red-600">{error}</p>
                 </div>
               </div>
             ) : users.length === 0 ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
-                  <div className="text-gray-400 text-4xl mb-2">🔍</div>
-                  <p className="text-gray-600">No users found</p>
+                  <div className="text-3xl sm:text-4xl mb-2">🔍</div>
+                  <p className="text-sm sm:text-base text-gray-600">No users found</p>
                 </div>
               </div>
             ) : (
               <MapContainer
                 center={[20, 0]}
                 zoom={2}
-                className="h-[520px] rounded-lg"
+                className="h-[320px] sm:h-[420px] lg:h-[520px] rounded-lg"
                 scrollWheelZoom={true}
               >
                 <TileLayer
@@ -364,20 +364,20 @@ const GlobalNetwork = () => {
           </Card>
 
           {/* Users List */}
-          <Card className="h-[600px] overflow-y-auto">
-            <h3 className="text-lg font-semibold mb-4">Users</h3>
+          <Card className="h-[400px] sm:h-[500px] lg:h-[600px] overflow-y-auto">
+            <h3 className="text-base sm:text-lg font-semibold mb-4">Users</h3>
             {loading ? (
               <div className="flex items-center justify-center h-full">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
               </div>
             ) : users.length === 0 ? (
               <div className="flex items-center justify-center h-full">
-                <div className="text-center">
-                  <div className="text-gray-400 text-4xl mb-2">👥</div>
-                  <p className="text-gray-600">No users found</p>
+                <div className="text-center px-4">
+                  <div className="text-3xl sm:text-4xl mb-2">👥</div>
+                  <p className="text-sm sm:text-base text-gray-600">No users found</p>
                   <button
                     onClick={handleResetFilters}
-                    className="mt-4 text-blue-600 hover:text-blue-700 font-medium"
+                    className="mt-4 text-sm sm:text-base text-blue-600 hover:text-blue-700 font-medium"
                   >
                     Clear filters
                   </button>
@@ -389,14 +389,14 @@ const GlobalNetwork = () => {
                   <div
                     key={u.id}
                     onClick={() => handleUserClick(u.id)}
-                    className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+                    className="p-3 sm:p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold text-gray-900">{u.username}</h4>
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h4 className="font-semibold text-sm sm:text-base text-gray-900 truncate">{u.username}</h4>
                           {u.id === user?.id && (
-                            <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-medium">
+                            <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-medium flex-shrink-0">
                               You
                             </span>
                           )}

@@ -1,3 +1,16 @@
+// Load environment variables FIRST with explicit path
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
+// Verify environment variables are loaded
+console.log('📋 Environment variables loaded:');
+console.log('   PORT:', process.env.PORT);
+console.log('   NODE_ENV:', process.env.NODE_ENV);
+console.log('   DATABASE_URL:', process.env.DATABASE_URL ? '✓ Set' : '✗ Not set');
+console.log('   JWT_SECRET:', process.env.JWT_SECRET ? '✓ Set' : '✗ Not set');
+console.log('');
+
+// Now load the server (don't use require, just run it)
 const http = require('http');
 const { Server } = require('socket.io');
 const app = require('./src/app');
@@ -43,3 +56,4 @@ server.on('error', (error) => {
     process.exit(1);
   }
 });
+

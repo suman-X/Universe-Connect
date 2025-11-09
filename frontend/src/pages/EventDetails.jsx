@@ -77,13 +77,13 @@ const EventDetails = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 flex items-center text-blue-600 hover:text-blue-700"
+          className="mb-6 flex items-center text-sm sm:text-base text-blue-600 hover:text-blue-700"
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           Back
@@ -91,72 +91,72 @@ const EventDetails = () => {
 
         {/* Event Header */}
         <Card className="mb-6">
-          <div className="flex justify-between items-start mb-4">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{event.title}</h1>
-              <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${getEventTypeColor(event.type)}`}>
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{event.title}</h1>
+              <span className={`inline-block px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-semibold ${getEventTypeColor(event.type)}`}>
                 {event.type}
               </span>
             </div>
           </div>
 
-          <p className="text-gray-700 text-lg mb-6">{event.description}</p>
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-6">{event.description}</p>
 
           {/* Event Details Grid */}
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Event Details</h3>
+              <h3 className="font-semibold text-base sm:text-lg text-gray-900 mb-3">Event Details</h3>
               <div className="space-y-3">
                 <div className="flex items-start">
-                  <svg className="w-5 h-5 mr-3 text-gray-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-3 text-gray-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <div>
-                    <p className="text-sm text-gray-600">Starts</p>
-                    <p className="font-medium">{formatDate(event.start_at)}</p>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-600">Starts</p>
+                    <p className="text-sm sm:text-base font-medium break-words">{formatDate(event.start_at)}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <svg className="w-5 h-5 mr-3 text-gray-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-3 text-gray-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <div>
-                    <p className="text-sm text-gray-600">Ends</p>
-                    <p className="font-medium">{formatDate(event.end_at)}</p>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-600">Ends</p>
+                    <p className="text-sm sm:text-base font-medium break-words">{formatDate(event.end_at)}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <svg className="w-5 h-5 mr-3 text-gray-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-3 text-gray-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>
-                  <div>
-                    <p className="text-sm text-gray-600">Location</p>
-                    <p className="font-medium">{event.city}</p>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-600">Location</p>
+                    <p className="text-sm sm:text-base font-medium break-words">{event.city}</p>
                   </div>
                 </div>
 
                 {event.organizer_name && (
                   <div className="flex items-start">
-                    <svg className="w-5 h-5 mr-3 text-gray-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-3 text-gray-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    <div>
-                      <p className="text-sm text-gray-600">Organizer</p>
-                      <p className="font-medium">{event.organizer_name}</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-gray-600">Organizer</p>
+                      <p className="text-sm sm:text-base font-medium break-words">{event.organizer_name}</p>
                     </div>
                   </div>
                 )}
 
                 {event.max_participants && (
                   <div className="flex items-start">
-                    <svg className="w-5 h-5 mr-3 text-gray-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-3 text-gray-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <div>
-                      <p className="text-sm text-gray-600">Max Participants</p>
-                      <p className="font-medium">{event.max_participants}</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-gray-600">Max Participants</p>
+                      <p className="text-sm sm:text-base font-medium">{event.max_participants}</p>
                     </div>
                   </div>
                 )}
@@ -165,8 +165,8 @@ const EventDetails = () => {
 
             {/* Map */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Location Map</h3>
-              <div className="h-64 rounded-lg overflow-hidden">
+              <h3 className="font-semibold text-base sm:text-lg text-gray-900 mb-3">Location Map</h3>
+              <div className="h-48 sm:h-64 rounded-lg overflow-hidden">
                 <MapContainer
                   center={{ latitude: parseFloat(event.latitude), longitude: parseFloat(event.longitude) }}
                   events={[event]}
@@ -176,11 +176,11 @@ const EventDetails = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-4">
-            <Button className="flex-1">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <Button className="flex-1 text-sm sm:text-base">
               Register for Event
             </Button>
-            <Button variant="outline" onClick={() => navigate('/team-builder')}>
+            <Button variant="outline" onClick={() => navigate('/team-builder')} className="text-sm sm:text-base">
               Find Teammates
             </Button>
           </div>

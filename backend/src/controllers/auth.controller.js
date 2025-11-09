@@ -97,22 +97,45 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log('Login attempt for email:', email);
+
+    // Validate input
+    if (!email || !password) {
+      console.log('Missing email or password');
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Email and password are required' 
+      });
+    }
+
     // Find user
     const result = await pool.query(
-      'SELECT id, email, password_hash, full_name, username, city, latitude, longitude FROM users WHERE email = $1',
+      'SELECT id, email, password_hash, full_name, username, city, latitude, longitude, university FROM users WHERE email = $1',
       [email]
     );
 
+    console.log('User found:', result.rows.length > 0);
+
     if (result.rows.length === 0) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      console.log('No user found with email:', email);
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Invalid email or password' 
+      });
     }
 
     const user = result.rows[0];
 
     // Verify password
     const isValidPassword = await bcrypt.compare(password, user.password_hash);
+    console.log('Password valid:', isValidPassword);
+
     if (!isValidPassword) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      console.log('Invalid password for user:', email);
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Invalid email or password' 
+      });
     }
 
     // Generate JWT
@@ -125,6 +148,8 @@ exports.login = async (req, res) => {
     // Remove password from response
     delete user.password_hash;
 
+    console.log('Login successful for user:', user.username);
+
     res.json({
       success: true,
       message: 'Login successful',
@@ -132,6 +157,10 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ success: false, message: 'Login failed', error: error.message });
+    res.status(500).json({ 
+      success: false, 
+      message: 'Login failed. Please try again.',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };

@@ -80,17 +80,17 @@ const Register = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-8">
       <div className="max-w-md w-full">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-2">UniVerse Connect</h1>
-          <p className="text-gray-600">Join the global student community</p>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">UniVerse Connect</h1>
+          <p className="text-sm sm:text-base text-gray-600">Join the global student community</p>
         </div>
 
         {/* Register Card */}
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Create Account</h2>
+        <div className="bg-white rounded-lg shadow-xl p-6 sm:p-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Create Account</h2>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
               {error}
             </div>
           )}
@@ -159,14 +159,14 @@ const Register = () => {
                 disabled={gettingLocation}
               >
                 {gettingLocation ? (
-                  <span className="flex items-center justify-center">
+                  <span className="flex items-center justify-center text-sm">
                     <Loader size="sm" /> Getting location...
                   </span>
                 ) : (formData.latitude !== null && formData.latitude !== 0 && 
                       formData.longitude !== null && formData.longitude !== 0) ? (
-                  `✓ Location set (${formData.latitude.toFixed(4)}, ${formData.longitude.toFixed(4)})`
+                  <span className="text-sm">✓ Location set ({formData.latitude.toFixed(4)}, {formData.longitude.toFixed(4)})</span>
                 ) : (
-                  '📍 Get My Location'
+                  <span className="text-sm">📍 Get My Location</span>
                 )}
               </Button>
               <p className="mt-1 text-xs text-gray-500">
@@ -177,7 +177,7 @@ const Register = () => {
             {/* Manual coordinates input (optional) */}
             {(formData.latitude === null || formData.latitude === 0) && 
              (formData.longitude === null || formData.longitude === 0) && (
-              <div className="mb-4 p-3 bg-blue-50 rounded text-sm text-blue-800">
+              <div className="mb-4 p-3 bg-blue-50 rounded text-xs sm:text-sm text-blue-800">
                 <p className="font-semibold mb-1">Don't want to share location?</p>
                 <p className="text-xs">Click "Get My Location" button above to continue</p>
               </div>
@@ -188,7 +188,7 @@ const Register = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-gray-600">
+          <p className="mt-6 text-center text-sm sm:text-base text-gray-600">
             Already have an account?{' '}
             <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
               Login

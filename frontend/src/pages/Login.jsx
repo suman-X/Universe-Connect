@@ -40,20 +40,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-8">
       <div className="max-w-md w-full">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-2">UniVerse Connect</h1>
-          <p className="text-gray-600">Connect with students worldwide</p>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">UniVerse Connect</h1>
+          <p className="text-sm sm:text-base text-gray-600">Connect with students worldwide</p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Welcome Back</h2>
+        <div className="bg-white rounded-lg shadow-xl p-6 sm:p-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Welcome Back</h2>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
               {error}
             </div>
           )}
@@ -85,13 +85,13 @@ const Login = () => {
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-4 p-3 bg-blue-50 rounded text-sm text-blue-800">
+          <div className="mt-4 p-3 bg-blue-50 rounded text-xs sm:text-sm text-blue-800">
             <p className="font-semibold mb-1">Demo Account:</p>
             <p>Email: ravi@iitb.ac.in</p>
             <p>Password: password123</p>
           </div>
 
-          <p className="mt-6 text-center text-gray-600">
+          <p className="mt-6 text-center text-sm sm:text-base text-gray-600">
             Don't have an account?{' '}
             <Link to="/register" className="text-blue-600 hover:text-blue-700 font-medium">
               Sign up

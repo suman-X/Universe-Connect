@@ -13,6 +13,8 @@ import TeamBuilder from '../pages/TeamBuilder';
 import LocalMeetups from '../pages/LocalMeetups';
 import Profile from '../pages/Profile';
 import GlobalNetwork from '../pages/GlobalNetwork';
+import DiscoverStudents from '../pages/DiscoverStudents';
+import FooterExample from '../pages/FooterExample';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -92,6 +94,18 @@ const AppRouter = () => {
               <GlobalNetwork />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/discover"
+          element={
+            <ProtectedRoute>
+              <DiscoverStudents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/footer-example"
+          element={<FooterExample />}
         />
 
         {/* 404 */}
